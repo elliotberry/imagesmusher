@@ -9,6 +9,12 @@ import ora from 'ora';
 import plur from 'plur';
 import stripIndent from 'strip-indent';
 import pairs from 'lodash.pairs';
+import {homedir} from 'os';
+import path from 'path';
+import {log} from './util.js';
+import filterOnlyImages from './filterimages.js';
+
+
 
 const cli = meow(`
 	Usage
@@ -84,7 +90,7 @@ const normalizePluginOptions = plugin => {
 };
 
 const run = async (input, {outDir, plugin} = {}) => {
-	const pluginOptions = normalizePluginOptions(plugin);
+	const pluginOptions = await normalizePluginOptions(plugin);
 	const plugins = await requirePlugins(pluginOptions);
 	const spinner = ora('Minifying images');
 
@@ -92,12 +98,16 @@ const run = async (input, {outDir, plugin} = {}) => {
 		process.stdout.write(await imagemin.buffer(input, {plugins}));
 		return;
 	}
-
+	if (!outDir) {
+		outDir = path.join(homedir(), 'imagemin-output');
+	}
 	if (outDir) {
 		spinner.start();
 	}
 
 	let files;
+	//let filterOnlyImagess = await filterOnlyImages(input);
+	//console.log(filterOnlyImagess);
 	try {
 		files = await imagemin(input, {destination: outDir, plugins});
 	} catch (error) {
@@ -110,7 +120,7 @@ const run = async (input, {outDir, plugin} = {}) => {
 	}
 
 	if (!outDir && files.length > 1) {
-		console.error('Cannot write multiple files to stdout, specify `--out-dir`');
+		log.error('Cannot write multiple files to stdout, specify `--out-dir`');
 		process.exit(1);
 	}
 
@@ -121,11 +131,11 @@ const run = async (input, {outDir, plugin} = {}) => {
 
 	spinner.stop();
 
-	console.log(`${files.length} ${plur('image', files.length)} minified`);
+	log.ok(`${files.length} ${plur('image', files.length)} minified and written to ${outDir}`);
 };
 
 if (cli.input.length === 0 && process.stdin.isTTY) {
-	console.error('Specify at least one file path');
+	log.error('Specify at least one file path');
 	process.exit(1);
 }
 
