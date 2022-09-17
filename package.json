@@ -1,53 +1,53 @@
 {
-	"name": "imagemin-cli",
-	"version": "7.0.0",
-	"description": "Minify images seamlessly",
-	"license": "MIT",
-	"repository": "imagemin/imagemin-cli",
-	"funding": "https://github.com/imagemin/imagemin-cli?sponsor=1",
+	"name": "imagesmasher",
+	"version": "7.7.7",
+	"description": "Minify images",
 	"type": "module",
 	"bin": {
-		"imagemin": "cli.js"
+		"imagesmasher": "./cli.js"
 	},
-	"engines": {
-		"node": ">=12.20"
+	"scripts": {
+		"test": "node cli.js \"test.png\""
 	},
-	"files": [
-		"cli.js"
-	],
-	"keywords": [
-		"cli",
-		"cli-app",
-		"compress",
-		"imagemin",
-		"gif",
-		"image",
-		"jpeg",
-		"jpg",
-		"minify",
-		"png",
-		"svg"
-	],
+	"eslintConfig": {
+		"root": true,
+		"parserOptions": {
+			"ecmaVersion": 12,
+			"sourceType": "module"
+		},
+		"extends": [
+			"eslint:recommended",
+			"prettier"
+		],
+		"env": {
+			"node": true,
+			"es6": true
+		}
+	},
+	"prettier": {
+		"trailingComma": "es5",
+		"tabWidth": 4,
+		"semi": false,
+		"singleQuote": true
+	},
+	"devDependencies": {
+		"eslint": "^8.16.0",
+		"prettier": "^2.7.1"
+	},
 	"dependencies": {
-		"arrify": "^3.0.0",
 		"chalk": "^5.0.1",
-		"get-stdin": "^9.0.0",
-		"imagemin": "^8.0.1",
+		"file-type": "^18.0.0",
+		"globby": "^13.1.2",
 		"imagemin-gifsicle": "^7.0.0",
 		"imagemin-jpegtran": "^7.0.0",
 		"imagemin-mozjpeg": "^10.0.0",
-		"imagemin-optipng": "^8.0.0",
 		"imagemin-pngquant": "^9.0.2",
-		"imagemin-svgo": "^9.0.0",
-		"lodash.pairs": "^3.0.1",
-		"meow": "^10.1.2",
-		"ora": "^6.1.0",
+		"imagemin-svgo": "^10.0.1",
+		"ora": "^6.1.2",
+		"pino": "^8.5.0",
+		"pino-pretty": "^9.1.0",
 		"plur": "^5.1.0",
-		"strip-indent": "^4.0.0"
-	},
-	"devDependencies": {
-		"ava": "^4.1.0",
-		"execa": "^6.1.0",
-		"typescript": "^4.6.3"
+		"promise.pipe": "^3.0.0",
+		"svgo-autocrop": "^1.1.2"
 	}
 }
