@@ -7,6 +7,5 @@
 
 ![ha](https://i.ibb.co/LdtzYpF/deepfried-1663466964672.jpg)
 
-my version of imagemin-cli. should "just work"
+my version of imagemin-cli. should "just work". You can't edit any plugins because I'm not very nice.
 
-imsmush
