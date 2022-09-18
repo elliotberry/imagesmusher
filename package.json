@@ -7,7 +7,7 @@
 		"ismush": "./cli.js"
 	},
 	"scripts": {
-		"test": "node cli.js \"./*.png\""
+		"test": "node cli.js \"./test.jpeg\" -o ./test"
 	},
 	"eslintConfig": {
 		"root": true,
@@ -42,7 +42,6 @@
 		"imagemin-mozjpeg": "^10.0.0",
 		"imagemin-pngquant": "^9.0.2",
 		"imagemin-svgo": "^10.0.1",
-		"ora": "^6.1.2",
 		"pino": "^8.5.0",
 		"pino-pretty": "^9.1.0",
 		"pretty-bytes": "^6.0.0",
