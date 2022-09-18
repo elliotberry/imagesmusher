@@ -12,7 +12,6 @@ const pluginOverride = () => {
         indent: 2, // string with spaces or number of spaces. 4 by default
         pretty: true, // boolean, false by default
       },
-
       plugins: [svgoautocrop, 'preset-default'],
     }),
     imageminMozjpeg({quality: 80, quantTable: 3}),

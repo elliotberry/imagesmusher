@@ -1,13 +1,13 @@
 {
-	"name": "imagesmasher",
-	"version": "7.7.7",
-	"description": "Minify images",
+	"name": "imagesmusher",
+	"version": "0.0.6",
+	"description": "This is just my modified version of imagemin-cli",
 	"type": "module",
 	"bin": {
-		"imagesmasher": "./cli.js"
+		"ismush": "./cli.js"
 	},
 	"scripts": {
-		"test": "node cli.js \"test.png\""
+		"test": "node cli.js \"./*.png\""
 	},
 	"eslintConfig": {
 		"root": true,
@@ -35,19 +35,19 @@
 		"prettier": "^2.7.1"
 	},
 	"dependencies": {
-		"chalk": "^5.0.1",
+		"eslint-config-prettier": "^8.5.0",
 		"file-type": "^18.0.0",
 		"globby": "^13.1.2",
 		"imagemin-gifsicle": "^7.0.0",
-		"imagemin-jpegtran": "^7.0.0",
 		"imagemin-mozjpeg": "^10.0.0",
 		"imagemin-pngquant": "^9.0.2",
 		"imagemin-svgo": "^10.0.1",
 		"ora": "^6.1.2",
 		"pino": "^8.5.0",
 		"pino-pretty": "^9.1.0",
-		"plur": "^5.1.0",
+		"pretty-bytes": "^6.0.0",
 		"promise.pipe": "^3.0.0",
-		"svgo-autocrop": "^1.1.2"
+		"svgo-autocrop": "^1.1.2",
+		"yargs": "^17.5.1"
 	}
 }

@@ -2,36 +2,39 @@
 import process from 'node:process';
 import imagemin from './im.js';
 import ora from 'ora';
-import {homedir} from 'os';
-import path from 'path';
+
 import logger from './logger.js';
 import pluginOverride from './plugins.js';
-import fs from 'node:fs';
+import yargs from 'yargs/yargs';
 
-let currentDir = process.cwd();
 
-const defaultOutDir = currentDir;
-//if (!fs.existsSync(defaultOutDir)){
-//  fs.mkdirSync(defaultOutDir);
-//}
+
+
+const defaultOutDir = process.cwd();
 var spinner;
 
-const run = async (input, outDir = defaultOutDir) => {
+const run = async () => {
+  var argv = yargs(process.argv.slice(2))
+    .usage('Usage: $0 <glob> [options]')
+    .alias('o', 'output')
+    .describe('o', 'output directory')
+    .alias('v', 'verbose')
+    .describe('v', 'verbose output').argv;
+
+    const globPattern = argv._[0];
+    const outputDir = argv.output || defaultOutDir;
+  
   try {
     spinner = ora('Starting');
     spinner.start();
     const plugins = await pluginOverride();
 
-    let numberOfFilesOutput = await imagemin({input: input, destination: outDir, plugins: plugins});
+    let numberOfFilesOutput = await imagemin({input: globPattern, destination: outputDir, plugins: plugins});
     spinner.stop();
-
-    logger.info(`the number of files minified was ${numberOfFilesOutput}. written to ${outDir}`);
+    logger.info(`the number of files minified was ${numberOfFilesOutput}. written to ${outputDir}`);
   } catch (error) {
     spinner.stop();
     logger.error(error);
   }
 };
-
-(async () => {
-  await run(process.argv[2]);
-})();
+run();

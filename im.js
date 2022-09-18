@@ -1,25 +1,32 @@
-import { readFile, writeFile } from 'node:fs/promises'
-import {existsSync} from 'node:fs'
+import { readFile, writeFile, stat } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import path from 'path'
 import { fileTypeFromBuffer } from 'file-type'
 import { globby } from 'globby'
 import promisePipe from 'promise.pipe'
 import logger from './logger.js'
+import prettyBytes from 'pretty-bytes';
 
 const replaceExt = (path, newExtension) => {
-    const index = path.lastIndexOf('.')
     const filenname = path.substring(0, path.lastIndexOf('.'))
     return filenname + '.' + newExtension
+}
+
+const getFilesize = async (filename) => {
+    const stats = await stat(filename)
+    const fileSizeInBytes = stats.size
+    return fileSizeInBytes
 }
 
 const handleFile = async (input, output, plugins) => {
     let ret = false
     try {
         let filePath = path.resolve(input)
+        let originalSize = await getFilesize(filePath)
         let data = await readFile(filePath)
-      
-        const {name, ext, dir} = path.parse(input);
-        const dest = path.join(output, `${name}-smashed${ext}`);
+
+        const { name, ext } = path.parse(input)
+        const dest = path.join(output, `${name}-smashed${ext}`)
 
         const pipe =
             plugins.length > 0
@@ -32,12 +39,14 @@ const handleFile = async (input, output, plugins) => {
             fileTypeFromBuffer(buf) && fileTypeFromBuffer(buf).ext === 'webp'
                 ? replaceExt(dest, '.webp')
                 : dest
-        let outputFilename = checkFileExists(outputPath);
-        if (outputFilename !== outputPath) {
-            logger.info(`file ${outputPath} already exists. writing to ${outputFilename}`)
-        }
+        let outputFilename = checkFileExists(outputPath)
+  
+      
         await writeFile(outputFilename, buf, { flag: 'wx' })
-        ret = true
+        let outputSize = await getFilesize(outputFilename)
+        let percent = Math.round((outputSize / originalSize) * 100)
+        logger.info(`${path.basename(outputPath)} -> ${path.basename(outputFilename)}. ${percent}% smaller. (${prettyBytes(originalSize)} -> ${prettyBytes(outputSize)})`)
+        ret = true;
     } catch (e) {
         logger.error(`issue with ${input}: ${e}`)
     }
@@ -48,7 +57,7 @@ const checkFileExists = (filename) => {
     let i = 1
     let newFilename = filename
     while (existsSync(newFilename)) {
-        newFilename = filename.replace(/(\.[^\.]+)$/, `(${i})$1`)
+        newFilename = filename.replace(/(\.[^.]+)$/, `(${i})$1`)
         i++
     }
     return newFilename
@@ -57,30 +66,14 @@ const checkFileExists = (filename) => {
 const imagemin = async ({ input, destination, plugins }) => {
     let paths = await globby(input, {
         expandDirectories: {
-            extensions: ['png'],
+            extensions: ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'],
         },
     })
     let filesOutput = await Promise.all(
         paths.map((filePath) => handleFile(filePath, destination, plugins))
     )
-    let filesSucceeded = filesOutput.filter((x) => x === true).length
+    let filesSucceeded = filesOutput.filter((x) => x !== false).length
     return filesSucceeded
-}
-
-const buffer = (input, opts) => {
-    if (!Buffer.isBuffer(input)) {
-        return Promise.reject(new TypeError('Expected a buffer'))
-    }
-
-    opts = Object.assign({ plugins: [] }, opts)
-    opts.plugins = opts.use || opts.plugins
-
-    const pipe =
-        opts.plugins.length > 0
-            ? promisePipe(opts.plugins)(input)
-            : Promise.resolve(input)
-
-    return pipe.then((buf) => (buf.length < input.length ? buf : input))
 }
 
 export default imagemin
