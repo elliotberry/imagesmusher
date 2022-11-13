@@ -2,7 +2,7 @@
 import process from 'node:process'
 import imagemin from './im.js'
 import path from 'node:path'
-import logger from './logger.js'
+import chalk from 'chalk'
 import pluginOverride from './plugins.js'
 import yargs from 'yargs/yargs'
 import { existsSync, mkdirSync } from 'node:fs'
@@ -19,7 +19,7 @@ const run = async () => {
 
     const globPattern = argv._[0]
     if (argv.output) {
-        if (existsSync(argv.output)) {
+        if (!existsSync(argv.output)) {
             mkdirSync(argv.output, { recursive: true })
         }
     }
@@ -34,13 +34,11 @@ const run = async () => {
             plugins: plugins,
         })
 
-        logger.info(
-            `the number of files minified was ${numberOfFilesOutput}. written to ${path.resolve(
-                outputDir
-            )}`
-        )
+        console.log(
+           `${numberOfFilesOutput > 0 ? chalk.green(numberOfFilesOutput) : chalk.red(numberOfFilesOutput)} ${chalk.green(`file(s) were minified and saved to ${path.resolve(outputDir)}`)}`)
+        
     } catch (error) {
-        logger.error(error)
+        console.error(error)
     }
 }
 run()

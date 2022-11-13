@@ -4,8 +4,8 @@ import path from 'path'
 import { fileTypeFromBuffer } from 'file-type'
 import { globby } from 'globby'
 import promisePipe from 'promise.pipe'
-import logger from './logger.js'
-import prettyBytes from 'pretty-bytes';
+import chalk from 'chalk'
+import prettyBytes from 'pretty-bytes'
 
 const replaceExt = (path, newExtension) => {
     const filenname = path.substring(0, path.lastIndexOf('.'))
@@ -40,15 +40,19 @@ const handleFile = async (input, output, plugins) => {
                 ? replaceExt(dest, '.webp')
                 : dest
         let outputFilename = checkFileExists(outputPath)
-  
-      
+
         await writeFile(outputFilename, buf, { flag: 'wx' })
         let outputSize = await getFilesize(outputFilename)
         let percent = Math.round((outputSize / originalSize) * 100)
-        logger.info(`${path.basename(outputPath)} -> ${path.basename(outputFilename)}. ${percent}% smaller. (${prettyBytes(originalSize)} -> ${prettyBytes(outputSize)})`)
-        ret = true;
+        console.log(chalk.green(`♥ ${path.basename(outputPath)} ⇨  ${path.basename(
+                outputFilename
+            )}. ${percent}% smaller. (${prettyBytes(
+                originalSize
+            )} ⇨ ${prettyBytes(outputSize)}) ♥`)
+        )
+        ret = true
     } catch (e) {
-        logger.error(`issue with ${input}: ${e}`)
+        console.error(`issue with ${input}: ${e}`)
     }
     return ret
 }

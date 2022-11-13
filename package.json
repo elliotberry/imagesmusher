@@ -1,52 +1,50 @@
 {
-	"name": "imagesmusher",
-	"version": "0.0.6",
-	"description": "This is just my modified version of imagemin-cli",
-	"type": "module",
-	"bin": {
-		"ismush": "./cli.js"
-	},
-	"scripts": {
-		"test": "node cli.js \"./test.jpeg\" -o ./test"
-	},
-	"eslintConfig": {
-		"root": true,
-		"parserOptions": {
-			"ecmaVersion": 12,
-			"sourceType": "module"
-		},
-		"extends": [
-			"eslint:recommended",
-			"prettier"
-		],
-		"env": {
-			"node": true,
-			"es6": true
-		}
-	},
-	"prettier": {
-		"trailingComma": "es5",
-		"tabWidth": 4,
-		"semi": false,
-		"singleQuote": true
-	},
-	"devDependencies": {
-		"eslint": "^8.16.0",
-		"prettier": "^2.7.1"
-	},
-	"dependencies": {
-		"eslint-config-prettier": "^8.5.0",
-		"file-type": "^18.0.0",
-		"globby": "^13.1.2",
-		"imagemin-gifsicle": "^7.0.0",
-		"imagemin-mozjpeg": "^10.0.0",
-		"imagemin-pngquant": "^9.0.2",
-		"imagemin-svgo": "^10.0.1",
-		"pino": "^8.5.0",
-		"pino-pretty": "^9.1.0",
-		"pretty-bytes": "^6.0.0",
-		"promise.pipe": "^3.0.0",
-		"svgo-autocrop": "^1.1.2",
-		"yargs": "^17.5.1"
-	}
+    "name": "imagesmusher",
+    "version": "0.0.6",
+    "description": "This is just my modified version of imagemin-cli",
+    "type": "module",
+    "bin": {
+        "ismush": "./cli.js"
+    },
+    "scripts": {
+        "test": "node cli.js \"./test.jpg\" -o ./test"
+    },
+    "eslintConfig": {
+        "root": true,
+        "parserOptions": {
+            "ecmaVersion": 12,
+            "sourceType": "module"
+        },
+        "extends": [
+            "eslint:recommended",
+            "prettier"
+        ],
+        "env": {
+            "node": true,
+            "es6": true
+        }
+    },
+    "prettier": {
+        "trailingComma": "es5",
+        "tabWidth": 4,
+        "semi": false,
+        "singleQuote": true
+    },
+    "devDependencies": {
+        "eslint": "^8.16.0",
+        "eslint-config-prettier": "^8.5.0",
+        "prettier": "^2.7.1"
+    },
+    "dependencies": {
+        "file-type": "^18.0.0",
+        "globby": "^13.1.2",
+        "imagemin-gifsicle": "^7.0.0",
+        "imagemin-mozjpeg": "^10.0.0",
+        "imagemin-pngquant": "^9.0.2",
+        "imagemin-svgo": "^10.0.1",
+        "pretty-bytes": "^6.0.0",
+        "promise.pipe": "^3.0.0",
+        "svgo-autocrop": "^1.1.2",
+        "yargs": "^17.5.1"
+    }
 }
