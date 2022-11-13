@@ -10,7 +10,7 @@
 [![](https://img.shields.io/badge/endorsement-approved-green)]()
 [![](https://img.shields.io/badge/subscribers-15k-red?logo=youtube&style=social)]()
 
-![ha](https://i.ibb.co/LdtzYpF/deepfried-1663466964672.jpg)
+![ha](https://ipfs.io/ipfs/QmZU6fWUToio9giUCm2hKTJPEMRdobzxzXQBEZfbywuzAg?filename=Untitled-2.png)
 
 my version of imagemin-cli. should "just work". You can't edit any plugins because I'm not very nice.
 
