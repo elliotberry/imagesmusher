@@ -42,6 +42,7 @@
         "imagemin-mozjpeg": "^10.0.0",
         "imagemin-pngquant": "^9.0.2",
         "imagemin-svgo": "^10.0.1",
+        "node-notifier": "^10.0.1",
         "pretty-bytes": "^6.0.0",
         "promise.pipe": "^3.0.0",
         "svgo-autocrop": "^1.1.2",
