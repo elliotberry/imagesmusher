@@ -1,10 +1,17 @@
 {
     "name": "imagesmusher",
-    "version": "0.0.6",
+    "version": "0.0.3",
     "description": "This is just my modified version of imagemin-cli",
     "type": "module",
     "bin": {
         "ismush": "./cli.js"
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:elliotberry/imagesmusher.git"
     },
     "scripts": {
         "test": "node cli.js \"./test.jpg\" -o ./test"
